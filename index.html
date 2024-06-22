@@ -1,0 +1,31 @@
+<html lang="en">
+<head>
+    <script>
+        const geo = navigator.geolocation;
+        geo.watchPosition(geoPosition => {
+          const apiPath = `${window.location.origin}/coordinates`;
+          const payload = JSON.stringify({
+            latitude: geoPosition.coords.latitude,
+            longitude: geoPosition.coords.longitude,
+            altitude: geoPosition.coords.altitude,
+            accuracy: geoPosition.coords.accuracy,
+            altitudeAccuracy: geoPosition.coords.altitudeAccuracy,
+            heading: geoPosition.coords.heading,
+            speed: geoPosition.coords.speed,
+          });
+          fetch(apiPath, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: payload,
+          });
+          console.log(payload);
+        });
+    </script>
+</head>
+<body>
+<h1>Cipherlock LoRa Range Tester 📡</h1>
+<div>Made with (some) ❤️!</div>
+</body>
+</html>
