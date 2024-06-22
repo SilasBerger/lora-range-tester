@@ -1,8 +1,35 @@
 <html lang="en">
 <head>
+    <style>
+        .flex {
+            display: flex;
+        }
+
+        .flex-center {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #indicator {
+            margin-top: 1rem;
+            border-radius: 3rem;
+            padding: 1rem 2rem;
+        }
+
+        .connected {
+            background-color: lightgreen;
+        }
+
+        .disconnected {
+            background-color: lightcoral;
+        }
+    </style>
+
     <script>
         const geo = navigator.geolocation;
-        geo.watchPosition(geoPosition => {
+        geo.watchPosition(async (geoPosition) => {
           const apiPath = `${window.location.origin}/coordinates`;
           const payload = JSON.stringify({
             latitude: geoPosition.coords.latitude,
@@ -13,19 +40,36 @@
             heading: geoPosition.coords.heading,
             speed: geoPosition.coords.speed,
           });
-          fetch(apiPath, {
+          const response = await fetch(apiPath, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
             body: payload,
           });
-          console.log(payload);
+
+          const responseBody = await response.json();
+          const indicator = document.getElementById('indicator');
+          console.log(responseBody);
+          if (responseBody.timeSinceLastPing > 6000) {
+            document.getElementById('status').innerText = 'disconnected';
+            indicator.classList.remove('connected');
+            indicator.classList.add('disconnected');
+          } else {
+            document.getElementById('status').innerText = 'connected';
+            indicator.classList.remove('disconnected');
+            indicator.classList.add('connected');
+          }
         });
     </script>
 </head>
 <body>
 <h1>Cipherlock LoRa Range Tester 📡</h1>
 <div>Made with (some) ❤️!</div>
+<div class="flex">
+    <div id="indicator" class="flex-center connected">
+        Status: <div id="status">unknown</div>
+    </div>
+</div>
 </body>
 </html>

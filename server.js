@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 
 const logFilename = `datalog_${Date.now()}.csv`;
-fs.writeFile(logFilename, 'timeSinceLastPing,latitude,longitude,altitude,accuracy,altitudeAccuracy,heading,speed', {}, () => {});
+fs.writeFile(logFilename, 'timeSinceLastPing;latitude;longitude;altitude;accuracy;altitudeAccuracy;heading;speed', {}, () => {});
 
 let timestampLastPing = Date.now();
 
@@ -26,10 +26,11 @@ app.post('/lora-ping', (req, res) => {
 app.post('/coordinates', async (req, res) => {
   const coordinates = req.body;
   const timeSinceLastPing = Date.now() - timestampLastPing;
-  const dataPoint = `${timeSinceLastPing},${coordinates.latitude},${coordinates.longitude},${coordinates.altitude}${coordinates.accuracy},${coordinates.altitudeAccuracy}${coordinates.heading},${coordinates.speed}`;
+  const dataPoint = `${timeSinceLastPing};${coordinates.latitude};${coordinates.longitude};${coordinates.altitude};${coordinates.accuracy};${coordinates.altitudeAccuracy};${coordinates.heading};${coordinates.speed}`;
   console.log(dataPoint);
   fs.writeFile(logFilename, `${dataPoint}\n`, { flag: 'a+' }, err => {});
   res.status(200);
+  res.send({timeSinceLastPing})
 });
 
 app.listen(port, () => {
