@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 
 const logFilename = `datalog_${Date.now()}.csv`;
-fs.writeFile(logFilename, 'timeSinceLastPing;latitude;longitude;altitude;accuracy;altitudeAccuracy;heading;speed', {}, () => {});
+fs.writeFile(logFilename, 'timeSinceLastPing;latitude;longitude;altitude;accuracy;altitudeAccuracy;heading;speed\n', {}, () => {});
 
 let timestampLastPing = Date.now();
 

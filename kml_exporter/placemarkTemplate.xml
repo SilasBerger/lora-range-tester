@@ -1,0 +1,27 @@
+<Placemark id="{markerId}">
+    <ExtendedData>
+        <Data name="type">
+            <value>marker</value>
+        </Data>
+    </ExtendedData>
+    <name>{name}</name>
+    <description></description>
+    <Style>
+        <IconStyle>
+            <Icon>
+                <href>https://api3.geo.admin.ch/color/{markerR},{markerG},{markerB}/marker-24@2x.png</href>
+                <gx:w>48</gx:w>
+                <gx:h>48</gx:h>
+            </Icon>
+            <hotSpot x="24" y="4.799999999999997" xunits="pixels" yunits="pixels"/>
+        </IconStyle>
+        <LabelStyle>
+            <color>{labelArgbHex}</color>
+        </LabelStyle>
+    </Style>
+    <Point>
+        <tessellate>1</tessellate>
+        <altitudeMode>clampToGround</altitudeMode>
+        <coordinates>{lon},{lat},0</coordinates>
+    </Point>
+</Placemark>
